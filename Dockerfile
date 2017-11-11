@@ -43,7 +43,7 @@ RUN chown odoo /etc/odoo/odoo.conf && rm -rf /usr/lib/python3/dist-packages/odoo
 # Mount /var/lib/odoo to allow restoring filestore and /mnt/extra-addons for users addons
 # RUN mkdir -p /mnt/extra-addons \
 #        && chown -R odoo /mnt/extra-addons
-# VOLUME ["/var/lib/odoo", "/mnt/extra-addons", "/etc/odoo/", "/usr/lib/python3/dist-packages/odoo/addons/"]
+VOLUME ["/var/lib/odoo", "/etc/odoo/", "/usr/lib/python3/dist-packages/odoo/addons/"]
 
 # Expose Odoo services
 EXPOSE 8069 8071 8072
