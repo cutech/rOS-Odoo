@@ -16,6 +16,7 @@ RUN set -x; \
             python3-renderpm \
             libssl1.0-dev \
             xz-utils \
+            unzip \
         && curl -o wkhtmltox.tar.xz -SL https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.4/wkhtmltox-0.12.4_linux-generic-amd64.tar.xz \
         && echo '3f923f425d345940089e44c1466f6408b9619562 wkhtmltox.tar.xz' | sha1sum -c - \
         && tar xvf wkhtmltox.tar.xz \
@@ -28,7 +29,6 @@ ENV ODOO_VERSION 11.0
 ENV ODOO_RELEASE latest
 RUN set -x; \
         curl -o odoo.deb -SL http://nightly.odoo.com/${ODOO_VERSION}/nightly/deb/odoo_${ODOO_VERSION}.${ODOO_RELEASE}_all.deb \
-#        && echo '63d3fd997c850b657b93fb9351624d88d45d1682 odoo.deb' | sha1sum -c - \
         && dpkg --force-depends -i odoo.deb \
         && apt-get update \
         && apt-get -y install -f --no-install-recommends \
@@ -36,13 +36,13 @@ RUN set -x; \
 
 # Copy entrypoint script and Odoo configuration file
 RUN pip3 install num2words
-# COPY ./entrypoint.sh /
+COPY ./theme_bootswatch.zip /
 COPY ./odoo.conf /etc/odoo/
-RUN chown odoo /etc/odoo/odoo.conf
+RUN chown odoo /etc/odoo/odoo.conf && rm -rf /usr/lib/python3/dist-packages/odoo/addons/theme_bootswatch/ && unzip package.zip -d /usr/lib/python3/dist-packages/odoo/addons/ && chown odoo /usr/lib/python3/dist-packages/odoo/addons/theme_bootswatch/
 
 # Mount /var/lib/odoo to allow restoring filestore and /mnt/extra-addons for users addons
-RUN mkdir -p /mnt/extra-addons \
-        && chown -R odoo /mnt/extra-addons
+# RUN mkdir -p /mnt/extra-addons \
+#        && chown -R odoo /mnt/extra-addons
 # VOLUME ["/var/lib/odoo", "/mnt/extra-addons", "/etc/odoo/", "/usr/lib/python3/dist-packages/odoo/addons/"]
 
 # Expose Odoo services
