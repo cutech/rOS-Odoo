@@ -38,7 +38,7 @@ RUN set -x; \
 RUN pip3 install num2words
 COPY ./theme_bootswatch.zip /
 COPY ./odoo.conf /etc/odoo/
-RUN chown odoo /etc/odoo/odoo.conf && rm -rf /usr/lib/python3/dist-packages/odoo/addons/theme_bootswatch/ && unzip package.zip -d /usr/lib/python3/dist-packages/odoo/addons/ && chown odoo /usr/lib/python3/dist-packages/odoo/addons/theme_bootswatch/
+RUN chown odoo /etc/odoo/odoo.conf && rm -rf /usr/lib/python3/dist-packages/odoo/addons/theme_bootswatch/ && unzip theme_bootswatch.zip -d /usr/lib/python3/dist-packages/odoo/addons/ && chown odoo /usr/lib/python3/dist-packages/odoo/addons/theme_bootswatch/
 
 # Mount /var/lib/odoo to allow restoring filestore and /mnt/extra-addons for users addons
 # RUN mkdir -p /mnt/extra-addons \
