@@ -1,0 +1,2 @@
+# rOS-Odoo
+Rancher Odoo
