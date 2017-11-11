@@ -34,11 +34,11 @@ RUN set -x; \
         && apt-get -y install -f --no-install-recommends \
         && rm -rf /var/lib/apt/lists/* odoo.deb
 
-# Copy entrypoint script and Odoo configuration file
+# Copy/extract themes file and Odoo configuration file
 RUN pip3 install num2words
 COPY ./theme_bootswatch.zip /
 COPY ./odoo.conf /etc/odoo/
-RUN chown odoo /etc/odoo/odoo.conf && rm -rf /usr/lib/python3/dist-packages/odoo/addons/theme_bootswatch/ && unzip theme_bootswatch.zip -d /usr/lib/python3/dist-packages/odoo/addons/ && chown odoo /usr/lib/python3/dist-packages/odoo/addons/theme_bootswatch/
+RUN chown odoo /etc/odoo/odoo.conf && rm -rf /usr/lib/python3/dist-packages/odoo/addons/theme_bootswatch/ && unzip theme_bootswatch.zip -d /usr/lib/python3/dist-packages/odoo/addons/ && chown odoo /usr/lib/python3/dist-packages/odoo/addons/
 
 # Mount /var/lib/odoo to allow restoring filestore and /mnt/extra-addons for users addons
 # RUN mkdir -p /mnt/extra-addons \
@@ -54,5 +54,5 @@ ENV ODOO_RC /etc/odoo/odoo.conf
 # Set default user when running the container
 USER odoo
 
-# ENTRYPOINT ["/entrypoint.sh"]
+# ENTRYPOINT [""]
 CMD ["odoo"]
